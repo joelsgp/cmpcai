@@ -1,7 +1,10 @@
 import csv
+import re
 from datetime import datetime
 from io import StringIO
 from pathlib import Path
+
+file_re = re.compile("home of eggyboi - (?P<category>.+) - (?P<channel>.+) \[\d+\]\.csv")
 
 # smsg - start message
 # emsg - end message
@@ -24,7 +27,9 @@ def format_date(timestamp: str) -> tuple[str, str]:
     return date, time
 
 
-def format_file(category: str, channel: str, reader: csv.DictReader, outfile: StringIO)
+def format_file(
+    category: str, channel: str, reader: csv.DictReader, outfile: StringIO
+):
     for row in reader:
         user = row["Author"]
         if user == "Deleted User":
@@ -41,19 +46,27 @@ def format_file(category: str, channel: str, reader: csv.DictReader, outfile: St
         )
 
         outfile.write(train_message)
+    outfile.write("<|endoftext|>")
 
 
 def main():
     out_dir = Path("out/")
     train_file = Path("train_eggyboi.txt")
 
-    with open(train_file, "w", encoding="utf-8") as out_file:
+    with open(train_file, "w", encoding="utf-8") as outfile:
         for fp in out_dir.iterdir():
             if not fp.is_file():
                 continue
+
+            print(f"doing {fp}")
+
+            match = file_re.fullmatch(fp.name)
+            category = match.group("category")
+            channel = match.group("channel")
+
             with open(fp, encoding="utf-8", newline="") as f:
                 reader = csv.DictReader(f, dialect=csv.unix_dialect)
-                print("\n===\n".join(li["Attachments"] for li in reader))
+                format_file(category=category, channel=channel, reader=reader, outfile=outfile)
 
 if __name__ == "__main__":
     main()
