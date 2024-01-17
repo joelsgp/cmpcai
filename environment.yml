@@ -1,0 +1,9 @@
+name: cmpcai
+channels:
+  - defaults
+dependencies:
+  - transformers
+  - cpuonly
+  - pytorch
+  - accelerate
+prefix: /home/joelm/miniconda3/envs/cmpcai
