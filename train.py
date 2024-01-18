@@ -10,16 +10,16 @@ from common import DATASET_DIR, MODEL_NAME
 
 OUTPUT_DIR = "eggyboi_model/"
 
-model = GPT2Model.from_pretrained(MODEL_NAME)
-
-dataset = load_dataset(DATASET_DIR)
-dataset_train = dataset["train"][0]
-
-training_args = TrainingArguments(output_dir=OUTPUT_DIR)
-trainer = Trainer(model=model, train_dataset=dataset_train, args=training_args)
-
 
 def main():
+    model = GPT2Model.from_pretrained(MODEL_NAME)
+
+    dataset = load_dataset(DATASET_DIR)
+    dataset_train = dataset["train"][0]
+
+    training_args = TrainingArguments(output_dir=OUTPUT_DIR)
+    trainer = Trainer(model=model, train_dataset=dataset_train, args=training_args)
+
     trainer.train()
 
 

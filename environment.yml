@@ -1,9 +1,10 @@
 name: cmpcai
 channels:
   - defaults
+  - huggingface
+  - pytorch
 dependencies:
   - transformers
-  - cpuonly
   - pytorch
-  - accelerate
+  - cpuonly
 prefix: /home/joelm/miniconda3/envs/cmpcai
