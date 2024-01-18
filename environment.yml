@@ -5,6 +5,7 @@ channels:
   - pytorch
 dependencies:
   - transformers
+  - accelerate
   - pytorch
   - cpuonly
 prefix: /home/joelm/miniconda3/envs/cmpcai
